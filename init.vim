@@ -106,6 +106,20 @@ nmap tt :q<CR>
 " Call command shortcut
 nmap tc :!
 
+" Compile C++ code using Clang
+nnoremap <F5> :w<CR>:term clang++ -o %:r %<CR>
+
+" Run compiled executable
+nnoremap <F6> :w<CR>:term ./%:r<CR>
+
+" Map Ctrl+z to undo
+nnoremap <C-z> u
+inoremap <C-z> <C-o>u
+
+" Map Ctrl+Shift+z to redo
+nnoremap <C-S-Z> <C-r>
+inoremap <C-S-Z> <C-o><C-r>
+
 
 
 " autocmd """"""""""
@@ -135,10 +149,14 @@ nmap <C-a> :NERDTreeToggle<CR>
 
 " ALE """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:ale_linters = {
+\   'cpp': [],
+\   'c': [],
 \}
 
 let g:ale_fixers = {
 \   '*': ['trim_whitespace'],
+\   'cpp': ['clang-format'],
+\   'c': ['clang-format'],
 \}
 
 let g:ale_fix_on_save = 1
@@ -155,8 +173,22 @@ if (has("nvim"))
 endif
 
 
+
+" C/C++ """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:ale_c_clangformat_options = '"-style={
+\ BasedOnStyle: google,
+\ IndentWidth: 4,
+\ ColumnLimit: 100,
+\ AllowShortBlocksOnASingleLine: false,
+\ AllowShortFunctionsOnASingleLine: None,
+\ FixNamespaceComments: true,
+\ ReflowComments: false,
+\ }"'
+
+
+
 " COC
-let g:coc_global_extensions = [ 'coc-snippets', 'coc-explorer']
+let g:coc_global_extensions = [ 'coc-snippets', 'coc-explorer', 'coc-clangd' ]
 " May need for Vim (not Neovim) since coc.nvim calculates byte offset by count
 " utf-8 byte sequence
 set encoding=utf-8
