@@ -123,7 +123,6 @@ inoremap <C-S-Z> <C-o><C-r>
 
 
 " autocmd """"""""""
-" autocmds aqui
 function! HighlightWordUnderCursor()
     if getline(".")[col(".")-1] !~# '[[:punct:][:blank:]]'
         exec 'match' 'Search' '/\V\<'.expand('<cword>').'\>/'
